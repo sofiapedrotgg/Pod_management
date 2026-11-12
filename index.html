@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cash Flow Pod Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#15181d; --muted:#6a717d; --line:#e4e7ec; --soft:#f0f2f5;
+  --accent:#2f5bd3; --ok:#1f8a5b; --okbg:#e5f5ed; --warn:#b26a00; --warnbg:#fff3df;
+  --bad:#c0362c; --badbg:#fde9e7; --info:#2f5bd3; --infobg:#e8eefc;
+  --s0:#8a63d2; --s1:#2f5bd3; --s2:#0f8fa3; --s3:#d08a00; --s4:#d3602f; --s5:#1f8a5b;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1115; --card:#171a20; --ink:#e9ecf1; --muted:#9aa2ae; --line:#272b33; --soft:#1e222a;
+    --accent:#7d9cf0; --ok:#4cc38a; --okbg:#143023; --warn:#f0b04a; --warnbg:#33260f;
+    --bad:#f07468; --badbg:#3a1714; --info:#7d9cf0; --infobg:#1a2440;
+    --s0:#a98ae6; --s1:#7d9cf0; --s2:#3fc1d3; --s3:#f0b04a; --s4:#f08a5d; --s5:#4cc38a;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 60px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
+h1{margin:0;font-size:24px;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:13px;margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .l{color:var(--muted);font-size:12px;font-weight:500}
+.kpi .v{font-size:28px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi.alert .v{color:var(--bad)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:18px}
+.panel h2{font-size:14px;margin:0 0 12px;font-weight:600}
+.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.stage{border-radius:10px;background:var(--soft);padding:10px;min-height:70px}
+.stage .t{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.stage .n{font-size:22px;font-weight:700;margin:2px 0}
+.stage .c{font-size:11px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.flabel{color:var(--muted);font-size:12px;margin-right:2px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--muted);font-weight:500;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.row{cursor:pointer}
+tr.row:hover td{background:var(--soft)}
+.cname{font-weight:600}
+.status{color:var(--muted);font-size:13px;margin-top:2px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:3px 9px;border-radius:999px;background:var(--soft);white-space:nowrap}
+.owner{display:inline-flex;align-items:center;gap:8px}
+.av{width:24px;height:24px;border-radius:50%;background:var(--infobg);color:var(--info);font-size:11px;font-weight:700;display:grid;place-items:center}
+.none{color:var(--muted);font-style:italic}
+.due{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;display:inline-block;margin-top:3px}
+.due.over{background:var(--badbg);color:var(--bad)} .due.today{background:var(--warnbg);color:var(--warn)}
+.due.soon{background:var(--infobg);color:var(--info)} .due.later{background:var(--soft);color:var(--muted)}
+.notes td{background:var(--soft);padding:10px 16px 14px}
+.log{margin:0;padding:0;list-style:none}
+.log li{display:flex;gap:12px;padding:4px 0;font-size:13px}
+.log .d{color:var(--muted);min-width:84px;font-variant-numeric:tabular-nums}
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.member{border:1px solid var(--line);border-radius:10px;padding:12px}
+.member .h{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px}
+.member .r{font-size:11px;color:var(--muted);font-weight:500}
+.member ul{margin:0;padding:0;list-style:none;font-size:13px}
+.member li{padding:2px 0;display:flex;justify-content:space-between;gap:8px}
+.cards{display:none}
+.err{background:var(--badbg);color:var(--bad);padding:12px;border-radius:10px}
+@media (max-width:820px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .pipe{grid-template-columns:repeat(3,1fr)}
+  .team{grid-template-columns:repeat(2,1fr)}
+  table{display:none}
+  .cards{display:grid;gap:10px}
+  .card{border:1px solid var(--line);border-radius:10px;padding:12px}
+  .card .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+  .card .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;align-items:center;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Cash Flow Pod Tracker</h1>
+      <div class="sub" id="sub">Cargando…</div>
+    </div>
+  </header>
+
+  <div id="app"></div>
+</div>
+
+<script>
+const STAGE_COLORS = ['--s0','--s1','--s2','--s3','--s4','--s5'];
+const MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const state = { owner:'Todos', stage:'Todos', open:new Set() };
+let DATA = null;
+
+function parseDate(s){ if(!s||!/^\d{4}-\d{2}-\d{2}$/.test(s)) return null; const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function iso(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function fmt(s){ const d=parseDate(s); return d ? `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}` : ''; }
+function today(){ const n=new Date(); return new Date(n.getFullYear(),n.getMonth(),n.getDate()); }
+function dueInfo(s){
+  const d=parseDate(s); if(!d) return null;
+  const diff=Math.round((d-today())/86400000);
+  if(diff<0) return {cls:'over', txt:`Vencido hace ${-diff} día${diff===-1?'':'s'}`};
+  if(diff===0) return {cls:'today', txt:'Hoy'};
+  if(diff===1) return {cls:'soon', txt:'Mañana'};
+  if(diff<=7) return {cls:'soon', txt:`En ${diff} días`};
+  return {cls:'later', txt:`En ${diff} días`};
+}
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function color(stage){ const i=DATA.stages.indexOf(stage); return `var(${STAGE_COLORS[i<0?0:i%6]})`; }
+function initials(n){ return n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase(); }
+function ownerHtml(o){ return o ? `<span class="owner"><span class="av">${esc(initials(o))}</span>${esc(o)}</span>` : `<span class="none">Sin asignar</span>`; }
+function stagePill(s){ return `<span class="pill"><span class="dot" style="background:${color(s)}"></span>${esc(s)}</span>`; }
+function nextHtml(c){
+  if(!c.nextAction && !c.nextDate) return `<span class="none">Sin definir</span>`;
+  const di=dueInfo(c.nextDate);
+  return `<div>${esc(c.nextAction||'Próxima acción')}${c.nextDate?` · ${fmt(c.nextDate)}`:''}</div>${di?`<span class="due ${di.cls}">${di.txt}</span>`:''}`;
+}
+function lastNote(c){ const n=[...(c.notes||[])].sort((a,b)=>b.date.localeCompare(a.date)); return n[0]; }
+
+function render(){
+  const C = DATA.clients;
+  const done = C.filter(c=>c.stage==='Implementado').length;
+  const due = C.filter(c=>{const d=dueInfo(c.nextDate); return d && (d.cls==='over'||d.cls==='today');}).length;
+  const unassigned = C.filter(c=>!c.owner).length;
+  const owners = ['Todos', ...DATA.team.map(t=>t.name), 'Sin asignar'];
+  const stages = ['Todos', ...DATA.stages];
+
+  const list = C.filter(c=>{
+    if(state.owner==='Sin asignar' && c.owner) return false;
+    if(state.owner!=='Todos' && state.owner!=='Sin asignar' && c.owner!==state.owner) return false;
+    if(state.stage!=='Todos' && c.stage!==state.stage) return false;
+    return true;
+  }).sort((a,b)=>{
+    const da=a.nextDate||'9999', db=b.nextDate||'9999';
+    if(da!==db) return da.localeCompare(db);
+    return DATA.stages.indexOf(a.stage)-DATA.stages.indexOf(b.stage);
+  });
+
+  let rows='', cards='';
+  list.forEach((c,i)=>{
+    const ln=lastNote(c);
+    const id='c'+C.indexOf(c);
+    const open=state.open.has(id);
+    const notes=[...(c.notes||[])].sort((a,b)=>b.date.localeCompare(a.date))
+      .map(n=>`<li><span class="d">${fmt(n.date)}</span><span>${esc(n.text)}</span></li>`).join('') || '<li class="none">Sin notas</li>';
+    rows+=`<tr class="row" data-id="${id}">
+      <td><div class="cname">${open?'▾':'▸'} ${esc(c.name)}</div><div class="status">${esc(c.status)}</div></td>
+      <td>${stagePill(c.stage)}</td>
+      <td>${ownerHtml(c.owner)}</td>
+      <td>${nextHtml(c)}</td>
+      <td style="color:var(--muted);font-size:13px">${ln?fmt(ln.date):''}</td>
+    </tr>${open?`<tr class="notes"><td colspan="5"><ul class="log">${notes}</ul></td></tr>`:''}`;
+    cards+=`<div class="card" data-id="${id}">
+      <div class="top"><div><div class="cname">${esc(c.name)}</div><div class="status">${esc(c.status)}</div></div>${stagePill(c.stage)}</div>
+      <div class="meta">${ownerHtml(c.owner)}<div>${nextHtml(c)}</div></div>
+      ${open?`<ul class="log" style="margin-top:10px">${notes}</ul>`:''}
+    </div>`;
+  });
+
+  const pipe = DATA.stages.map(s=>{
+    const cs=C.filter(c=>c.stage===s);
+    return `<div class="stage"><div class="t"><span class="dot" style="background:${color(s)}"></span>${esc(s)}</div>
+      <div class="n">${cs.length}</div><div class="c">${cs.map(c=>esc(c.name)).join(', ')}</div></div>`;
+  }).join('');
+
+  const team = DATA.team.map(t=>{
+    const cs=C.filter(c=>c.owner===t.name);
+    return `<div class="member"><div class="h"><span class="av">${esc(initials(t.name))}</span>${esc(t.name)} <span class="r">${esc(t.role||'')}</span></div>
+      <ul>${cs.length?cs.map(c=>`<li><span>${esc(c.name)}</span>${stagePill(c.stage)}</li>`).join(''):'<li class="none">Sin clientes asignados</li>'}</ul></div>`;
+  }).join('');
+
+  document.getElementById('app').innerHTML = `
+    <div class="kpis">
+      <div class="kpi"><div class="l">Clientes</div><div class="v">${C.length}</div></div>
+      <div class="kpi"><div class="l">Implementados</div><div class="v">${done}</div></div>
+      <div class="kpi ${due?'alert':''}"><div class="l">Acciones hoy o vencidas</div><div class="v">${due}</div></div>
+      <div class="kpi"><div class="l">Sin responsable</div><div class="v">${unassigned}</div></div>
+    </div>
+    <div class="panel"><h2>Pipeline</h2><div class="pipe">${pipe}</div></div>
+    <div class="panel">
+      <h2>Clientes</h2>
+      <div class="filters"><span class="flabel">Responsable</span>${owners.map(o=>`<button class="chip ${state.owner===o?'on':''}" data-f="owner" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+      <div class="filters"><span class="flabel">Etapa</span>${stages.map(o=>`<button class="chip ${state.stage===o?'on':''}" data-f="stage" data-v="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+      <table><thead><tr><th>Cliente</th><th>Etapa</th><th>Responsable</th><th>Próxima acción</th><th>Última nota</th></tr></thead><tbody>${rows||'<tr><td colspan="5" class="none">No hay clientes con ese filtro</td></tr>'}</tbody></table>
+      <div class="cards">${cards||'<div class="none">No hay clientes con ese filtro</div>'}</div>
+    </div>
+    <div class="panel"><h2>Team</h2><div class="team">${team}</div></div>`;
+
+  document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{ state[b.dataset.f]=b.dataset.v; render(); });
+  document.querySelectorAll('[data-id]').forEach(r=>r.onclick=()=>{ const id=r.dataset.id; state.open.has(id)?state.open.delete(id):state.open.add(id); render(); });
+}
+
+fetch('data.json?v='+Date.now(), {cache:'no-store'})
+  .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(d=>{ DATA=d; document.getElementById('sub').textContent=`Actualizado el ${fmt(d.updated)} · Hoy ${fmt(iso(today()))}`; render(); })
+  .catch(e=>{ document.getElementById('sub').textContent=''; document.getElementById('app').innerHTML=`<div class="err">No se pudo leer data.json (${esc(e.message)}). Revisá que el archivo esté en la misma carpeta y que el JSON no tenga errores de formato.</div>`; });
+</script>
+</body>
+</html>

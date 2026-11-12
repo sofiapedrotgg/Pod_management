@@ -1,0 +1,89 @@
+{
+  "updated": "2026-11-12",
+  "team": [
+    { "name": "Sofi", "role": "Lead" },
+    { "name": "Miraluna", "role": "Team" },
+    { "name": "Walter", "role": "Team" },
+    { "name": "Jose", "role": "Team" }
+  ],
+  "stages": ["En progreso", "Draft enviado", "Follow up", "Meeting agendada", "Testing", "Implementado"],
+  "clients": [
+    {
+      "name": "Restorative Injectables",
+      "owner": "",
+      "stage": "Implementado",
+      "status": "Implemented",
+      "nextAction": "",
+      "nextDate": "",
+      "notes": [
+        { "date": "2026-11-12", "text": "Implemented" }
+      ]
+    },
+    {
+      "name": "Crew Marketing Partners",
+      "owner": "Miraluna",
+      "stage": "Draft enviado",
+      "status": "Miraluna mandó el first draft",
+      "nextAction": "",
+      "nextDate": "",
+      "notes": [
+        { "date": "2026-11-12", "text": "Miraluna mandó el first draft" }
+      ]
+    },
+    {
+      "name": "SilverHawk",
+      "owner": "",
+      "stage": "Follow up",
+      "status": "Followed up on 11/12",
+      "nextAction": "",
+      "nextDate": "",
+      "notes": [
+        { "date": "2026-11-12", "text": "Followed up" }
+      ]
+    },
+    {
+      "name": "575 Pizzeria",
+      "owner": "",
+      "stage": "Meeting agendada",
+      "status": "Meeting scheduled on 11/13",
+      "nextAction": "Meeting",
+      "nextDate": "2026-11-13",
+      "notes": [
+        { "date": "2026-11-12", "text": "Meeting scheduled on 11/13" }
+      ]
+    },
+    {
+      "name": "WIN Brands",
+      "owner": "",
+      "stage": "Testing",
+      "status": "Implemented, en fase de testing",
+      "nextAction": "",
+      "nextDate": "",
+      "notes": [
+        { "date": "2026-11-12", "text": "Implemented, testing phase" }
+      ]
+    },
+    {
+      "name": "Hardison Medical",
+      "owner": "",
+      "stage": "Draft enviado",
+      "status": "Sent draft on 11/10",
+      "nextAction": "Follow up",
+      "nextDate": "2026-11-13",
+      "notes": [
+        { "date": "2026-11-10", "text": "Sent draft" }
+      ]
+    },
+    {
+      "name": "360BGC",
+      "owner": "Jose",
+      "stage": "En progreso",
+      "status": "Jose está trabajando en este cliente, es cliente propio de Jose",
+      "nextAction": "",
+      "nextDate": "",
+      "notes": [
+        { "date": "2026-11-12", "text": "Jose está trabajando en este cliente (cliente propio)" }
+      ]
+    }
+  ]
+}
