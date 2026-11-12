@@ -1,17 +1,18 @@
 {
   "updated": "2026-11-12",
+  "savedAt": "2026-11-12T00:00:00.000Z",
   "team": [
     { "name": "Sofi", "role": "Lead" },
     { "name": "Miraluna", "role": "Team" },
     { "name": "Walter", "role": "Team" },
     { "name": "Jose", "role": "Team" }
   ],
-  "stages": ["En progreso", "Draft enviado", "Follow up", "Meeting agendada", "Testing", "Implementado"],
+  "stages": ["In progress", "Draft sent", "Follow up", "Meeting scheduled", "Testing", "Implemented"],
   "clients": [
     {
       "name": "Restorative Injectables",
       "owner": "",
-      "stage": "Implementado",
+      "stage": "Implemented",
       "status": "Implemented",
       "nextAction": "",
       "nextDate": "",
@@ -22,12 +23,12 @@
     {
       "name": "Crew Marketing Partners",
       "owner": "Miraluna",
-      "stage": "Draft enviado",
-      "status": "Miraluna mandó el first draft",
+      "stage": "Draft sent",
+      "status": "Miraluna sent the first draft",
       "nextAction": "",
       "nextDate": "",
       "notes": [
-        { "date": "2026-11-12", "text": "Miraluna mandó el first draft" }
+        { "date": "2026-11-12", "text": "Miraluna sent the first draft" }
       ]
     },
     {
@@ -44,7 +45,7 @@
     {
       "name": "575 Pizzeria",
       "owner": "",
-      "stage": "Meeting agendada",
+      "stage": "Meeting scheduled",
       "status": "Meeting scheduled on 11/13",
       "nextAction": "Meeting",
       "nextDate": "2026-11-13",
@@ -56,7 +57,7 @@
       "name": "WIN Brands",
       "owner": "",
       "stage": "Testing",
-      "status": "Implemented, en fase de testing",
+      "status": "Implemented, testing phase",
       "nextAction": "",
       "nextDate": "",
       "notes": [
@@ -66,7 +67,7 @@
     {
       "name": "Hardison Medical",
       "owner": "",
-      "stage": "Draft enviado",
+      "stage": "Draft sent",
       "status": "Sent draft on 11/10",
       "nextAction": "Follow up",
       "nextDate": "2026-11-13",
@@ -77,12 +78,12 @@
     {
       "name": "360BGC",
       "owner": "Jose",
-      "stage": "En progreso",
-      "status": "Jose está trabajando en este cliente, es cliente propio de Jose",
+      "stage": "In progress",
+      "status": "Jose is working on it, his own client",
       "nextAction": "",
       "nextDate": "",
       "notes": [
-        { "date": "2026-11-12", "text": "Jose está trabajando en este cliente (cliente propio)" }
+        { "date": "2026-11-12", "text": "Jose is working on this client (his own client)" }
       ]
     }
   ]
